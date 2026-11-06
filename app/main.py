@@ -1,5 +1,3 @@
-# Test GitHub Actions workflow
-import os
 from fastapi import FastAPI
 
 from .config import settings
