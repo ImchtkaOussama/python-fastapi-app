@@ -26,7 +26,8 @@ jobs:
 
       - name: Vérifier le style
         run: ruff check .
-            - name: Afficher les contextes
+        
+      - name: Afficher les contextes
         run: |
           echo "Application: $APP_NAME"
           echo "Acteur: ${{ github.actor }}"
