@@ -3,6 +3,27 @@ name: Env, Inputs and Outputs Lab
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environnement cible"
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+      version:
+        description: "Version à déployer"
+        required: true
+        default: "1.0.0"
+        type: string
+
+      debug:
+        description: "Activer le mode debug"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -10,7 +31,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set environment variables
         run: |
           echo "APP_NAME=my-app" >> $GITHUB_ENV
@@ -20,12 +41,22 @@ jobs:
         run: |
           echo "Application: $APP_NAME"
           echo "Build date: $BUILD_DATE"
-  
+
+      - name: Print deployment inputs
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Version: ${{ inputs.version }}"
+          echo "Debug: ${{ inputs.debug }}"
+
+      - name: Print debug information
+        if: ${{ inputs.debug }}
+        run: |
+          echo "Debug mode is enabled"
+          echo "Additional diagnostic information"
+
   verify-env:
     runs-on: ubuntu-latest
     steps:
       - name: Print APP_NAME
         run: |
           echo "Application: $APP_NAME"
-
-
